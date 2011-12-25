@@ -1,0 +1,27 @@
+body {
+	width:
+}
+
+#cross-key {
+	position : absolute;
+	top : 50px;
+	left: 30px;
+	width : 180px;
+	height : 180px;
+}
+
+#a-button{
+    position : absolute;
+	width: 180px;
+	height: 85px;
+	top : 50px;
+	left : 260px;
+}
+
+#b-button{
+    position : absolute;
+    width: 180px;
+    height: 85px;
+    top : 145px;
+    left : 260px;
+}

@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>JoyPad.js</title>
+		<meta name = "viewport" content = "width=device-width; initial-scale=1; maximum-scale=1; user-scalable=0;" >
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+		<link rel="stylesheet" href="css/basic.css" />
+        <script type="text/javascript" src="http://code.jquery.com/jquery.min.js" ></script>
+        <script type="text/javascript" src="js/joypad.js" ></script>
+	</head>
+	<body>
+		
+        <div id="test" ></div>
+		<div id="joypad" >
+            <div id="cross-key" class="cross-key" >
+                <img src="img/cross-key.png"  >
+            </div>
+            <div id="a-button" class="button" >
+                <img src="img/A-button.png"  >
+            </div>
+            <div id="b-button" class="button" >
+                <img src="img/B-button.png"  >
+            </div>
+		</div>
+        <div id="pos" ></div>
+        <div id="a" ></div>
+		
+		<script type="text/javascript">
+			$(function(){
+				
+				
+                // WebSocket 確認
+                if (!window.WebSocket && !window.MozWebSocket) {
+                    alert("WebSocket disabled!!");
+                    return;
+                }
+        
+                // WebSocket 初期化
+                wsurl = "ws://localhost";
+                ws = window.MozWebSocket ? new MozWebSocket(wsurl) : new WebSocket(wsurl);
+            
+                ws.addEventListener("message",function(msg) {
+                    if (msg == null || msg.data == null) return;
+                    $(document.body).append("<div class='message'>"+msg.data+"</div>");
+                }, false);
+                
+                ws.addEventListener("connection", function(){
+                    console.log(this, arguments);
+                });
+				
+				
+				$("#joypad").joypad({
+					ws: "localhost"
+				}).bind("joypad",function( e, param ){
+					ws.send( param );
+					$("#test").text( JSON.stringify(param) );
+				});
+			});
+		</script>
+		
+	</body>
+</html>
